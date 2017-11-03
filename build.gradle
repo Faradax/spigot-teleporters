@@ -1,0 +1,19 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "2.0.1"
+    id 'groovy'
+}
+
+group 'de.faradax.minecraft'
+version '1.0-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+    maven { url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"}
+    maven { url "https://oss.sonatype.org/content/groups/public" }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compileOnly group: 'org.spigotmc', name: 'spigot-api', version:'1.12.2-R0.1-SNAPSHOT'
+}

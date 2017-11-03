@@ -1,0 +1,3 @@
+name: Teleporters
+main: de.faradax.minecraft.teleporters.Plugin
+version: 1.0.0-SNAPSHOT
