@@ -10,6 +10,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityInteractEvent
+import org.bukkit.event.hanging.HangingBreakEvent
 import org.bukkit.event.player.PlayerInteractEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
@@ -46,7 +47,16 @@ class TeleporterListener implements Listener {
     }
 
     @EventHandler
-    void onTeleporterBeaconRemoval(EntityDamageByEntityEvent event) {
+    void onItemRemovedFromItemFrame(EntityDamageByEntityEvent event) {
+        checkTeleporterInvalidation(event)
+    }
+
+    @EventHandler
+    void onItemFrameRemoval(HangingBreakEvent event) {
+        checkTeleporterInvalidation(event)
+    }
+
+    private void checkTeleporterInvalidation(event) {
         def isItemFrameEvent = event.entity instanceof ItemFrame
         if (isItemFrameEvent) {
             def itemFrame = event.entity as ItemFrame

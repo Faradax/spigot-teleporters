@@ -16,4 +16,11 @@ repositories {
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.3.11'
     compileOnly group: 'org.spigotmc', name: 'spigot-api', version:'1.12.2-R0.1-SNAPSHOT'
+
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    testCompile group: 'cglib', name: 'cglib', version: '3.2.5'
+    testCompile group: 'org.objenesis', name: 'objenesis', version: '2.6'
+    testCompile group: 'org.bukkit', name: 'bukkit', version:'1.12.2-R0.1-SNAPSHOT'
+    testCompileOnly group: 'org.spigotmc', name: 'spigot-api', version:'1.12.2-R0.1-SNAPSHOT'
+
 }

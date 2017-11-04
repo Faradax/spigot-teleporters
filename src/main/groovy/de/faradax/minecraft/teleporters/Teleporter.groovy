@@ -12,10 +12,10 @@ import org.bukkit.inventory.ItemStack
 /**
  * Represents a Diamond Block with a filled item frame attached.
  */
-class TeleporterBeacon {
+class Teleporter {
 
     ItemStack id
-    TeleporterBeacon target = this
+    Teleporter target = this
     Block block
     boolean isActive = true
 
@@ -49,8 +49,35 @@ class TeleporterBeacon {
 
     private boolean teleportEntityToLocation(Entity entity, Location location) {
         location.direction = entity.location.direction
-        entity.world.playEffect(entity.location, Effect.PORTAL_TRAVEL, 0)
         entity.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN)
-        entity.world.playEffect(entity.location, Effect.PORTAL_TRAVEL, 0)
+        if (entity instanceof Player) {
+            (entity as Player).playEffect(entity.location, Effect.PORTAL_TRAVEL, null)
+        }
+    }
+
+    Map<String, Object> serialize() {
+        [
+                id            : id,
+                targetLocation: target.block.location,
+                blockLocation : block.location
+        ]
+    }
+
+    static deserialize(List<Map> serializedTeleporters) {
+        Map<Location, Teleporter> blockLocationsToTeleporters = [:]
+        List<Teleporter> teleporters = serializedTeleporters.collect {
+            def teleporter = new Teleporter(id: it.id, block: (it.blockLocation as Location).block)
+            blockLocationsToTeleporters.put(it.blockLocation, teleporter)
+            return teleporter
+        }
+
+        teleporters.each { teleporter ->
+            def serializedTeleporter = serializedTeleporters.find {
+                it.blockLocation == teleporter.block.location
+            }
+
+            teleporter.target = blockLocationsToTeleporters[serializedTeleporter.targetLocation]
+        }
+        teleporters
     }
 }
